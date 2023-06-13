@@ -1,3 +1,14 @@
 #!/bin/bash
-find . -type f -name "*.gif" | sort -f | sed -e 's/\.gif$//' -e 's/^\.\///'
+
+shopt -s globstar nullglob
+
+for file in **/*.gif; do
+  if [[ -f "$file" ]]; then
+    filename=$(basename -- "$file")
+    filename="${filename%.*}"
+    echo "$filename"
+  fi
+done | LC_COLLATE=C sort -f
+
 echo
+
